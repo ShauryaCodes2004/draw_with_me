@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type and Draw Shapes</title>
+    <style>
+        /* Base styling for body */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fbfd, #e1f0f7);
+            color: #333;
+        }
+
+        /* Title styling */
+        h1 {
+            font-size: 2.5rem;
+            color: #444;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Input field styling */
+        #inputText {
+            padding: 12px 20px;
+            font-size: 1rem;
+            margin-top: 20px;
+            border: 2px solid #a3c9d9;
+            border-radius: 25px;
+            outline: none;
+            width: 300px;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Input focus effect */
+        #inputText:focus {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            border-color: #85b7cc;
+        }
+
+        /* Canvas styling */
+        #canvas {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            background: #fff;
+            transition: transform 0.2s ease;
+        }
+
+        /* Canvas hover effect */
+        #canvas:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <h1>Type to Draw Shapes</h1>
+    <input type="text" id="inputText" placeholder="Type 'ball', 'square', 'tree', 'sun', or 'mountain'">
+    <canvas id="canvas" width="600" height="400"></canvas>
+
+    <script>
+        const inputText = document.getElementById('inputText');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Shape "database" with functions for each drawing
+        const shapes = {
+            "ball": drawBall,
+            "square": drawSquare,
+            "tree": drawTree,
+            "sun": drawSun,
+            "mountain": drawMountain
+        };
+
+        // Listen for the "Enter" key on the input field
+        inputText.addEventListener('keyup', function(event) {
+            if (event.key === "Enter") {  // Check if the "Enter" key was pressed
+                drawShape();
+            }
+        });
+
+        // Function to clear the canvas and draw a shape from the "database"
+        function drawShape() {
+            const word = inputText.value.trim().toLowerCase();
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+            if (shapes[word]) {
+                shapes[word]();  // Call the corresponding shape function
+            } else {
+                alert("Shape not recognized! Try 'ball', 'square', 'tree', 'sun', or 'mountain'.");
+            }
+        }
+
+        // Draw a ball (circle)
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(300, 200, 50, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ff6b6b';
+            ctx.fill();
+            ctx.strokeStyle = '#f04a4a';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        // Draw a square
+        function drawSquare() {
+            ctx.beginPath();
+            ctx.rect(250, 150, 100, 100);
+            ctx.fillStyle = '#4da6ff';
+            ctx.fill();
+            ctx.strokeStyle = '#2c8ad2';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        // Draw a tree
+        function drawTree() {
+            // Draw trunk
+            ctx.beginPath();
+            ctx.fillStyle = '#8b5a2b';
+            ctx.fillRect(280, 220, 40, 100);
+
+            // Draw leaves
+            ctx.beginPath();
+            ctx.arc(300, 200, 50, 0, 2 * Math.PI);
+            ctx.fillStyle = '#2e8b57';
+            ctx.fill();
+            ctx.strokeStyle = '#3d7d3d';
+            ctx.stroke();
+        }
+
+        // Draw the sun
+        function drawSun() {
+            ctx.beginPath();
+            ctx.arc(500, 80, 40, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffd700';
+            ctx.fill();
+
+            // Draw sun rays
+            for (let i = 0; i < 12; i++) {
+                ctx.beginPath();
+                ctx.moveTo(500, 80);
+                const angle = (i * Math.PI) / 6;
+                const x = 500 + Math.cos(angle) * 70;
+                const y = 80 + Math.sin(angle) * 70;
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = '#ffcf33';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        // Draw mountains
+        function drawMountain() {
+            ctx.beginPath();
+            ctx.moveTo(100, 300);
+            ctx.lineTo(250, 150);
+            ctx.lineTo(400, 300);
+            ctx.closePath();
+            ctx.fillStyle = '#a9a9a9';
+            ctx.fill();
+            ctx.strokeStyle = '#696969';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(300, 300);
+            ctx.lineTo(450, 180);
+            ctx.lineTo(550, 300);
+            ctx.closePath();
+            ctx.fillStyle = '#8b8b8b';
+            ctx.fill();
+            ctx.stroke();
+        }
+    </script>
+</body>
+</html>

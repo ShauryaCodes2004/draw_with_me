@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type to Draw Images</title>
+    <style>
+        /* Base styling for body */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fbfd, #e1f0f7);
+            color: #333;
+        }
+
+        /* Title styling */
+        h1 {
+            font-size: 2.5rem;
+            color: #444;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Input field styling */
+        #inputText {
+            padding: 12px 20px;
+            font-size: 1rem;
+            margin-top: 20px;
+            border: 2px solid #a3c9d9;
+            border-radius: 25px;
+            outline: none;
+            width: 300px;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Canvas styling */
+        #canvas {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            background: #fff;
+            transition: transform 0.2s ease;
+        }
+
+        /* Canvas hover effect */
+        #canvas:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <h1>Type to Draw Images</h1>
+    <input type="text" id="inputText" placeholder="Type 'tree', 'sun', or 'mountain' and press Enter">
+    <canvas id="canvas" width="600" height="400"></canvas>
+
+    <script>
+        const inputText = document.getElementById('inputText');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Dictionary to map keywords to image URLs
+        const images = {
+            tree: 'C:\Users\DELL\Desktop\aibased drawing\tree-transparent-background_1308-74321.avif',       // Replace with actual image URLs
+            sun: 'https://example.com/sun.png',
+            mountain: 'https://example.com/mountain.png'
+        };
+
+        // Function to draw the image based on the keyword
+        function drawImage() {
+            const word = inputText.value.trim().toLowerCase();
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+            if (images[word]) {
+                const img = new Image();
+                img.src = images[word];
+                img.onload = function() {
+                    ctx.drawImage(img, (canvas.width - img.width) / 2, (canvas.height - img.height) / 2);
+                };
+            } else {
+                // If no image found for the word, show an error message
+                ctx.font = '24px Arial';
+                ctx.fillStyle = 'red';
+                ctx.textAlign = 'center';
+                ctx.fillText('Image not found', canvas.width / 2, canvas.height / 2);
+            }
+        }
+
+        // Listen for the "Enter" key on the input field
+        inputText.addEventListener('keyup', function(event) {
+            if (event.key === "Enter") {  // Check if the "Enter" key was pressed
+                drawImage();
+            }
+        });
+    </script>
+</body>
+</html>
