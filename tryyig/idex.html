@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type and Draw Shapes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #canvas {
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Type to Draw Shapes</h1>
+    <input type="text" id="inputText" placeholder="Type 'ball' to draw a ball">
+    <canvas id="canvas" width="600" height="400"></canvas>
+
+    <script>
+        const inputText = document.getElementById('inputText');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Function to clear the canvas and draw a shape
+        function drawShape() {
+            const word = inputText.value.trim().toLowerCase();
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+            if (word === "ball") {
+                drawBall();
+            }
+            // Add more shapes or words as needed
+            else if (word === "square") {
+                drawSquare();
+            }
+            // You can add more shapes here by extending the conditions
+        }
+
+        // Draw a ball (circle)
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(300, 200, 50, 0, 2 * Math.PI); // Draw a circle
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // Draw a square
+        function drawSquare() {
+            ctx.beginPath();
+            ctx.rect(250, 150, 100, 100); // Draw a square
+            ctx.fillStyle = 'blue';
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // Listen for changes in the input field
+        inputText.addEventListener('input', drawShape);
+    </script>
+</body>
+</html>
